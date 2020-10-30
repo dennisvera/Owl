@@ -13,7 +13,17 @@ class ViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    view.backgroundColor = .white
 
-    view.backgroundColor = .yellow
+    let owlClient = OwlClient()
+
+    owlClient.fetchNowPlayingMovies(1) { result in
+      switch result {
+      case .success(let movies):
+        print(movies)
+      case .failure(let error):
+        print(error)
+      }
+    }
   }
 }

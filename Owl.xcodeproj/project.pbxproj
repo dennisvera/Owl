@@ -12,6 +12,12 @@
 		E1056302254C8E74009AED4B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1056301254C8E74009AED4B /* ViewController.swift */; };
 		E1056307254C8E76009AED4B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1056306254C8E76009AED4B /* Assets.xcassets */; };
 		E105630A254C8E76009AED4B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E1056308254C8E76009AED4B /* LaunchScreen.storyboard */; };
+		E1056319254C93BF009AED4B /* OwlClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1056318254C93BF009AED4B /* OwlClient.swift */; };
+		E105631D254C94C9009AED4B /* DataTaskMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E105631C254C94C9009AED4B /* DataTaskMaker.swift */; };
+		E1056320254C9521009AED4B /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E105631F254C9521009AED4B /* APIError.swift */; };
+		E1056322254C9569009AED4B /* APIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1056321254C9569009AED4B /* APIEndpoint.swift */; };
+		E1056325254C9A20009AED4B /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1056324254C9A20009AED4B /* Movie.swift */; };
+		E1056327254CA494009AED4B /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1056326254CA494009AED4B /* APIClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +28,12 @@
 		E1056306254C8E76009AED4B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E1056309254C8E76009AED4B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E105630B254C8E76009AED4B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E1056318254C93BF009AED4B /* OwlClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OwlClient.swift; path = ../OwlClient.swift; sourceTree = "<group>"; };
+		E105631C254C94C9009AED4B /* DataTaskMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTaskMaker.swift; sourceTree = "<group>"; };
+		E105631F254C9521009AED4B /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
+		E1056321254C9569009AED4B /* APIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndpoint.swift; sourceTree = "<group>"; };
+		E1056324254C9A20009AED4B /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		E1056326254CA494009AED4B /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +67,8 @@
 			isa = PBXGroup;
 			children = (
 				E1056311254C8E85009AED4B /* Application Delegates */,
+				E1056317254C936F009AED4B /* Networking */,
+				E1056323254C99FF009AED4B /* Model */,
 				E1056312254C8E9E009AED4B /* Modules */,
 				E1056313254C8EAC009AED4B /* Storyboards */,
 				E1056314254C8F2F009AED4B /* Resources */,
@@ -110,6 +124,50 @@
 				E105630B254C8E76009AED4B /* Info.plist */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E1056317254C936F009AED4B /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				E105631E254C9518009AED4B /* Types */,
+				E105631A254C9494009AED4B /* Client */,
+				E105631B254C94A0009AED4B /* Protocols */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		E105631A254C9494009AED4B /* Client */ = {
+			isa = PBXGroup;
+			children = (
+				E1056318254C93BF009AED4B /* OwlClient.swift */,
+			);
+			path = Client;
+			sourceTree = "<group>";
+		};
+		E105631B254C94A0009AED4B /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				E1056326254CA494009AED4B /* APIClient.swift */,
+				E105631C254C94C9009AED4B /* DataTaskMaker.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		E105631E254C9518009AED4B /* Types */ = {
+			isa = PBXGroup;
+			children = (
+				E105631F254C9521009AED4B /* APIError.swift */,
+				E1056321254C9569009AED4B /* APIEndpoint.swift */,
+			);
+			path = Types;
+			sourceTree = "<group>";
+		};
+		E1056323254C99FF009AED4B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E1056324254C9A20009AED4B /* Movie.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -182,9 +240,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1056322254C9569009AED4B /* APIEndpoint.swift in Sources */,
 				E1056302254C8E74009AED4B /* ViewController.swift in Sources */,
 				E10562FE254C8E74009AED4B /* AppDelegate.swift in Sources */,
 				E1056300254C8E74009AED4B /* SceneDelegate.swift in Sources */,
+				E105631D254C94C9009AED4B /* DataTaskMaker.swift in Sources */,
+				E1056319254C93BF009AED4B /* OwlClient.swift in Sources */,
+				E1056325254C9A20009AED4B /* Movie.swift in Sources */,
+				E1056320254C9521009AED4B /* APIError.swift in Sources */,
+				E1056327254CA494009AED4B /* APIClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
