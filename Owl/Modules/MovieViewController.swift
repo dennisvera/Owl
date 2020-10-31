@@ -45,24 +45,23 @@ final class MovieViewController: UIViewController {
   }
 
   private func createCollectionViewLayout() -> UICollectionViewLayout {
-    // Define Item Size
-    let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(200.0))
-    // Create Item
-    let item = NSCollectionLayoutItem(layoutSize: itemSize)
+    let inset: CGFloat = 2.5
+    let fraction: CGFloat = 1 / 2
 
-    // Define Group Size
-    let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(200.0))
-    // Create Group
+    // Item
+    let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(fraction), heightDimension: .fractionalHeight(1))
+    let item = NSCollectionLayoutItem(layoutSize: itemSize)
+    item.contentInsets = NSDirectionalEdgeInsets(top: inset, leading: inset, bottom: inset, trailing: inset)
+
+    // Group
+    let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(fraction))
     let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
 
-    // Create Section
+    // Section
     let section = NSCollectionLayoutSection(group: group)
-    // Configure Section
-    section.contentInsets = NSDirectionalEdgeInsets(top: 0.0, leading: 20.0, bottom: 0.0, trailing: 20.0)
-     // group spacing
-    section.interGroupSpacing = 15
+    section.contentInsets = NSDirectionalEdgeInsets(top: inset, leading: inset, bottom: inset, trailing: inset)
 
-    // Create Layout
+    // Layout
     let layout = UICollectionViewCompositionalLayout(section: section)
 
     return layout
