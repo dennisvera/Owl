@@ -13,6 +13,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   // MARK: - Properties
 
   var window: UIWindow?
+
+  // MARK: -
+
+  private let appCoordinator = AppCoordinator()
   
   func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
     // Initialize Window
@@ -20,9 +24,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     window = UIWindow(windowScene: windowScene)
 
     // Configure Window
-    window?.rootViewController = MoviesViewController()
+    window?.rootViewController = appCoordinator.rootViewController
 
     // Make Key and Visible
     window?.makeKeyAndVisible()
+
+    // Start Coordinator
+    appCoordinator.start()
   }
 }

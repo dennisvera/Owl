@@ -16,7 +16,21 @@ final class MoviesViewController: UIViewController {
 
   // MARK: -
 
+  private let viewModel: MoviesViewModel
+
   private var movies: [Movie]?
+
+  // MARK: - Initialization
+
+  init(viewModel: MoviesViewModel) {
+    self.viewModel = viewModel
+
+    super.init(nibName: nil, bundle: Bundle.main)
+  }
+
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
 
   // MARK: - View Life Cycle
 
@@ -73,16 +87,11 @@ final class MoviesViewController: UIViewController {
   }
 
   private func fetchData() {
-    let owlClient = OwlClient()
+    viewModel.loadData()
 
-    owlClient.fetchNowPlayingMovies(1) { result in
-      switch result {
-      case .success(let movies):
-        self.movies = movies.results
-        print(movies)
-      case .failure(let error):
-        print(error)
-      }
+    viewModel.moviesDidChange = { [weak self] in
+      guard let strongSelf = self else { return }
+      strongSelf.collectionView.reloadData()
     }
   }
 }
@@ -90,18 +99,16 @@ final class MoviesViewController: UIViewController {
 extension MoviesViewController: UICollectionViewDataSource {
 
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return movies?.count ?? 0
+    return viewModel.numberOfMovies
   }
 
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MoviesCollectionViewCell.reuseIdentifier,
                                                         for: indexPath) as? MoviesCollectionViewCell else {
                                                           fatalError("Unable to Dequeue Cells.") }
+    let movie = viewModel.movie(at: indexPath.item)
 
-
-    if let movie = movies?[indexPath.item] {
-      cell.configure(with: movie)
-    }
+    cell.configure(with: movie)
 
     return cell
   }
