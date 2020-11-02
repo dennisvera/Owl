@@ -16,9 +16,8 @@ final class MoviesViewController: UIViewController {
 
   // MARK: -
 
-  private let viewModel: MoviesViewModel
-
   private var movies: [Movie]?
+  private let viewModel: MoviesViewModel
 
   // MARK: - Initialization
 
@@ -37,8 +36,18 @@ final class MoviesViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    setupView()
     fetchData()
     setupCollectionView()
+  }
+
+  private func setupView() {
+    title = "Movies"
+
+    view.backgroundColor = .white
+
+    // Configure Navigation Controller
+    navigationController?.navigationBar.prefersLargeTitles = true
   }
 
   private func setupCollectionView() {

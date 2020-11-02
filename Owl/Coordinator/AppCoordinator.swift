@@ -39,8 +39,7 @@ final class AppCoordinator {
     // Initialize Movies View Controller
     let moviesViewController = MoviesViewController(viewModel: viewModel)
 
-    // Push Feed View Controller Onto Navigation Stack
-    navigationController.navigationBar.prefersLargeTitles = true
+    // Push Movies View Controller Onto Navigation Stack
     navigationController.pushViewController(moviesViewController, animated: true)
   }
 }
