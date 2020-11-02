@@ -8,11 +8,15 @@
 
 import UIKit
 
-final class MovieViewController: UIViewController {
+final class MoviesViewController: UIViewController {
 
   // MARK: - Properties
 
   private var collectionView: UICollectionView!
+
+  // MARK: -
+
+  private var movies: [Movie]?
 
   // MARK: - View Life Cycle
 
@@ -29,7 +33,8 @@ final class MovieViewController: UIViewController {
     collectionView.delegate = self
     collectionView.dataSource = self
     collectionView.backgroundColor = .white
-    collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+    collectionView.register(MoviesCollectionViewCell.self,
+                            forCellWithReuseIdentifier: MoviesCollectionViewCell.reuseIdentifier)
     collectionView.translatesAutoresizingMaskIntoConstraints = false
 
     // Constraints
@@ -73,6 +78,7 @@ final class MovieViewController: UIViewController {
     owlClient.fetchNowPlayingMovies(1) { result in
       switch result {
       case .success(let movies):
+        self.movies = movies.results
         print(movies)
       case .failure(let error):
         print(error)
@@ -81,18 +87,25 @@ final class MovieViewController: UIViewController {
   }
 }
 
-extension MovieViewController: UICollectionViewDataSource {
+extension MoviesViewController: UICollectionViewDataSource {
 
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 30
+    return movies?.count ?? 0
   }
 
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-    cell.backgroundColor = .red
+    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MoviesCollectionViewCell.reuseIdentifier,
+                                                        for: indexPath) as? MoviesCollectionViewCell else {
+                                                          fatalError("Unable to Dequeue Cells.") }
+
+
+    if let movie = movies?[indexPath.item] {
+      cell.configure(with: movie)
+    }
+
     return cell
   }
 }
 
-extension MovieViewController: UICollectionViewDelegate {}
+extension MoviesViewController: UICollectionViewDelegate {}
 

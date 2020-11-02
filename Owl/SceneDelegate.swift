@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     window = UIWindow(windowScene: windowScene)
 
     // Configure Window
-    window?.rootViewController = MovieViewController()
+    window?.rootViewController = MoviesViewController()
 
     // Make Key and Visible
     window?.makeKeyAndVisible()

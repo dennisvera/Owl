@@ -17,7 +17,8 @@
 		E1056322254C9569009AED4B /* APIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1056321254C9569009AED4B /* APIEndpoint.swift */; };
 		E1056325254C9A20009AED4B /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1056324254C9A20009AED4B /* Movie.swift */; };
 		E1056327254CA494009AED4B /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1056326254CA494009AED4B /* APIClient.swift */; };
-		E1056329254CB5F1009AED4B /* MovieViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1056328254CB5F1009AED4B /* MovieViewController.swift */; };
+		E1056329254CB5F1009AED4B /* MoviesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1056328254CB5F1009AED4B /* MoviesViewController.swift */; };
+		E105632C254F8287009AED4B /* MoviesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E105632B254F8287009AED4B /* MoviesCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,7 +34,8 @@
 		E1056321254C9569009AED4B /* APIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndpoint.swift; sourceTree = "<group>"; };
 		E1056324254C9A20009AED4B /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		E1056326254CA494009AED4B /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
-		E1056328254CB5F1009AED4B /* MovieViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieViewController.swift; sourceTree = "<group>"; };
+		E1056328254CB5F1009AED4B /* MoviesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesViewController.swift; sourceTree = "<group>"; };
+		E105632B254F8287009AED4B /* MoviesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,7 +91,7 @@
 		E1056312254C8E9E009AED4B /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				E1056328254CB5F1009AED4B /* MovieViewController.swift */,
+				E105632A254F8256009AED4B /* Movies */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -170,6 +172,23 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		E105632A254F8256009AED4B /* Movies */ = {
+			isa = PBXGroup;
+			children = (
+				E1056328254CB5F1009AED4B /* MoviesViewController.swift */,
+				E105632D254F8294009AED4B /* Collection View Cell */,
+			);
+			path = Movies;
+			sourceTree = "<group>";
+		};
+		E105632D254F8294009AED4B /* Collection View Cell */ = {
+			isa = PBXGroup;
+			children = (
+				E105632B254F8287009AED4B /* MoviesCollectionViewCell.swift */,
+			);
+			path = "Collection View Cell";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -241,7 +260,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1056322254C9569009AED4B /* APIEndpoint.swift in Sources */,
-				E1056329254CB5F1009AED4B /* MovieViewController.swift in Sources */,
+				E1056329254CB5F1009AED4B /* MoviesViewController.swift in Sources */,
 				E10562FE254C8E74009AED4B /* AppDelegate.swift in Sources */,
 				E1056300254C8E74009AED4B /* SceneDelegate.swift in Sources */,
 				E105631D254C94C9009AED4B /* DataTaskMaker.swift in Sources */,
@@ -249,6 +268,7 @@
 				E1056325254C9A20009AED4B /* Movie.swift in Sources */,
 				E1056320254C9521009AED4B /* APIError.swift in Sources */,
 				E1056327254CA494009AED4B /* APIClient.swift in Sources */,
+				E105632C254F8287009AED4B /* MoviesCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
