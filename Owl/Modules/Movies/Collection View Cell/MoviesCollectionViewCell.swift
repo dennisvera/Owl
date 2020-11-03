@@ -23,7 +23,7 @@ class MoviesCollectionViewCell: UICollectionViewCell {
     let imageView = UIImageView()
     imageView.clipsToBounds = true
     imageView.layer.cornerRadius = 16
-    imageView.contentMode = .scaleAspectFill
+    imageView.contentMode = .scaleAspectFit
     return imageView
   }()
 
@@ -44,10 +44,14 @@ class MoviesCollectionViewCell: UICollectionViewCell {
   private func setupViews() {
     addSubview(movieImageView)
     movieImageView.translatesAutoresizingMaskIntoConstraints = false
-    let constraints = [movieImageView.topAnchor.constraint(equalTo: topAnchor),
-                       movieImageView.leftAnchor.constraint(equalTo: leftAnchor),
-                       movieImageView.rightAnchor.constraint(equalTo: rightAnchor),
-                       movieImageView.bottomAnchor.constraint(equalTo: bottomAnchor)]
+
+    let constraints = [
+      // Movie Image View
+      movieImageView.topAnchor.constraint(equalTo: topAnchor),
+      movieImageView.leftAnchor.constraint(equalTo: leftAnchor),
+      movieImageView.rightAnchor.constraint(equalTo: rightAnchor),
+      movieImageView.bottomAnchor.constraint(equalTo: bottomAnchor)
+    ]
 
     NSLayoutConstraint.activate(constraints)
   }
@@ -55,7 +59,8 @@ class MoviesCollectionViewCell: UICollectionViewCell {
   // MARK: - Public Methods
 
   func configure(with movie: Movie) {
-    let imageBaseUrl = "https://image.tmdb.org/t/p/w500/"
+    // Configure Image view
+    let imageBaseUrl = "https://image.tmdb.org/t/p/w300/"
     guard let posterPath = movie.posterPath else { return }
     guard let posterUrl = URL(string: imageBaseUrl + posterPath) else { return }
     movieImageView.sd_setImage(with: posterUrl)

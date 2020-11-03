@@ -55,10 +55,9 @@ final class MoviesViewController: UIViewController {
     collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createCollectionViewLayout())
     collectionView.delegate = self
     collectionView.dataSource = self
-    collectionView.backgroundColor = .white
-    collectionView.register(MoviesCollectionViewCell.self,
-                            forCellWithReuseIdentifier: MoviesCollectionViewCell.reuseIdentifier)
+    collectionView.backgroundColor = .systemBackground
     collectionView.translatesAutoresizingMaskIntoConstraints = false
+    collectionView.register(MoviesCollectionViewCell.self, forCellWithReuseIdentifier: MoviesCollectionViewCell.reuseIdentifier)
 
     // Constraints
     let constraints = [
@@ -73,21 +72,22 @@ final class MoviesViewController: UIViewController {
   }
 
   private func createCollectionViewLayout() -> UICollectionViewLayout {
-    let inset: CGFloat = 2.5
-    let fraction: CGFloat = 1/2
+    let inset: CGFloat = 3
+    let fraction: CGFloat = 1/3
 
     // Item
     let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(fraction), heightDimension: .fractionalHeight(1))
     let item = NSCollectionLayoutItem(layoutSize: itemSize)
-    item.contentInsets = NSDirectionalEdgeInsets(top: inset, leading: inset, bottom: inset, trailing: inset)
+    item.contentInsets = NSDirectionalEdgeInsets(top: inset, leading: inset, bottom: inset, trailing: 0)
 
     // Group
-    let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(280))
+    let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.94), heightDimension: .estimated(200))
     let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
 
     // Section
     let section = NSCollectionLayoutSection(group: group)
-    section.contentInsets = NSDirectionalEdgeInsets(top: inset, leading: inset, bottom: inset, trailing: inset)
+    section.orthogonalScrollingBehavior = .groupPaging
+    section.contentInsets = NSDirectionalEdgeInsets(top: inset, leading: 8, bottom: inset, trailing: 0)
 
     // Layout
     let layout = UICollectionViewCompositionalLayout(section: section)
