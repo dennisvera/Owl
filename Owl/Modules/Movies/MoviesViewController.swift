@@ -74,7 +74,7 @@ final class MoviesViewController: UIViewController {
 
   private func createCollectionViewLayout() -> UICollectionViewLayout {
     let inset: CGFloat = 2.5
-    let fraction: CGFloat = 1 / 2
+    let fraction: CGFloat = 1/2
 
     // Item
     let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(fraction), heightDimension: .fractionalHeight(1))
@@ -82,7 +82,7 @@ final class MoviesViewController: UIViewController {
     item.contentInsets = NSDirectionalEdgeInsets(top: inset, leading: inset, bottom: inset, trailing: inset)
 
     // Group
-    let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(fraction))
+    let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(280))
     let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
 
     // Section

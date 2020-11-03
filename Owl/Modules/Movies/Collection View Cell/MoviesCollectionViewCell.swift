@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class MoviesCollectionViewCell: UICollectionViewCell {
 
@@ -18,11 +19,12 @@ class MoviesCollectionViewCell: UICollectionViewCell {
 
   // MARK: - Properties
 
-  private let titleLabel: UILabel = {
-    let label = UILabel()
-    label.text = "Donut"
-    label.font = .systemFont(ofSize: 14)
-    return label
+  private let movieImageView: UIImageView = {
+    let imageView = UIImageView()
+    imageView.clipsToBounds = true
+    imageView.layer.cornerRadius = 16
+    imageView.contentMode = .scaleAspectFill
+    return imageView
   }()
 
   // MARK: - Initialization
@@ -40,14 +42,12 @@ class MoviesCollectionViewCell: UICollectionViewCell {
   // MARK: - Helper Methods
 
   private func setupViews() {
-    backgroundColor = .cyan
-
-    addSubview(titleLabel)
-    titleLabel.translatesAutoresizingMaskIntoConstraints = false
-    let constraints = [titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 20),
-                       titleLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 20),
-                       titleLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -20),
-                       titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20)]
+    addSubview(movieImageView)
+    movieImageView.translatesAutoresizingMaskIntoConstraints = false
+    let constraints = [movieImageView.topAnchor.constraint(equalTo: topAnchor),
+                       movieImageView.leftAnchor.constraint(equalTo: leftAnchor),
+                       movieImageView.rightAnchor.constraint(equalTo: rightAnchor),
+                       movieImageView.bottomAnchor.constraint(equalTo: bottomAnchor)]
 
     NSLayoutConstraint.activate(constraints)
   }
@@ -55,6 +55,9 @@ class MoviesCollectionViewCell: UICollectionViewCell {
   // MARK: - Public Methods
 
   func configure(with movie: Movie) {
-    titleLabel.text = movie.title
+    let imageBaseUrl = "https://image.tmdb.org/t/p/w500/"
+    guard let posterPath = movie.posterPath else { return }
+    guard let posterUrl = URL(string: imageBaseUrl + posterPath) else { return }
+    movieImageView.sd_setImage(with: posterUrl)
   }
 }
