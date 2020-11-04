@@ -79,7 +79,30 @@ final class MoviesViewController: UIViewController {
     NSLayoutConstraint.activate(constraints)
   }
 
+  private func fetchData() {
+    viewModel.loadData()
+
+    viewModel.moviesDidChange = { [weak self] in
+      guard let strongSelf = self else { return }
+      strongSelf.collectionView.reloadData()
+    }
+  }
+
+  // MARK: - UICollection View Layout
+
   private func createCollectionViewLayout() -> UICollectionViewLayout {
+    let layout = UICollectionViewCompositionalLayout { (sectionIndex, _) -> NSCollectionLayoutSection? in
+        return self.createNowPlayingSection()
+    }
+
+    let config = UICollectionViewCompositionalLayoutConfiguration()
+    config.interSectionSpacing = 20
+    layout.configuration = config
+
+    return layout
+  }
+
+  private func createNowPlayingSection() -> NSCollectionLayoutSection {
     let inset: CGFloat = 3
     let fraction: CGFloat = 1/3
 
@@ -107,23 +130,15 @@ final class MoviesViewController: UIViewController {
     section.orthogonalScrollingBehavior = .groupPaging
     section.contentInsets = NSDirectionalEdgeInsets(top: inset, leading: 8, bottom: inset, trailing: 0)
 
-    // Layout
-    let layout = UICollectionViewCompositionalLayout(section: section)
-
-    return layout
-  }
-
-  private func fetchData() {
-    viewModel.loadData()
-
-    viewModel.moviesDidChange = { [weak self] in
-      guard let strongSelf = self else { return }
-      strongSelf.collectionView.reloadData()
-    }
+    return section
   }
 }
 
 extension MoviesViewController: UICollectionViewDataSource {
+
+  func numberOfSections(in collectionView: UICollectionView) -> Int {
+    return 4
+  }
 
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return viewModel.numberOfMovies

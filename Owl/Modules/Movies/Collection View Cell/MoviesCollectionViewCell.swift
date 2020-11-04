@@ -22,8 +22,8 @@ final class MoviesCollectionViewCell: UICollectionViewCell {
   private let movieImageView: UIImageView = {
     let imageView = UIImageView()
     imageView.clipsToBounds = true
-    imageView.layer.cornerRadius = 16
-    imageView.contentMode = .scaleAspectFit
+    imageView.layer.cornerRadius = 20
+    imageView.contentMode = .scaleAspectFill
     return imageView
   }()
 
