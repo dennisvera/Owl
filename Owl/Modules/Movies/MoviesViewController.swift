@@ -57,7 +57,15 @@ final class MoviesViewController: UIViewController {
     collectionView.dataSource = self
     collectionView.backgroundColor = .systemBackground
     collectionView.translatesAutoresizingMaskIntoConstraints = false
-    collectionView.register(MoviesCollectionViewCell.self, forCellWithReuseIdentifier: MoviesCollectionViewCell.reuseIdentifier)
+
+    // Register Collection View Cell
+    collectionView.register(MoviesCollectionViewCell.self,
+                            forCellWithReuseIdentifier: MoviesCollectionViewCell.reuseIdentifier)
+
+    // Register Collection Header View
+    collectionView.register(MoviesCollectionReusableView.self,
+                            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                            withReuseIdentifier: MoviesCollectionReusableView.reuseIdentifier)
 
     // Constraints
     let constraints = [
@@ -76,16 +84,26 @@ final class MoviesViewController: UIViewController {
     let fraction: CGFloat = 1/3
 
     // Item
-    let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(fraction), heightDimension: .fractionalHeight(1))
+    let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(fraction),
+                                          heightDimension: .fractionalHeight(1))
     let item = NSCollectionLayoutItem(layoutSize: itemSize)
     item.contentInsets = NSDirectionalEdgeInsets(top: inset, leading: inset, bottom: inset, trailing: 0)
 
     // Group
-    let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.94), heightDimension: .estimated(200))
+    let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.94),
+                                           heightDimension: .estimated(200))
     let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+
+    // Header
+    let headerItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                                heightDimension: .estimated(40))
+    let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerItemSize,
+                                                                 elementKind: UICollectionView.elementKindSectionHeader,
+                                                                 alignment: .top)
 
     // Section
     let section = NSCollectionLayoutSection(group: group)
+    section.boundarySupplementaryItems = [headerItem]
     section.orthogonalScrollingBehavior = .groupPaging
     section.contentInsets = NSDirectionalEdgeInsets(top: inset, leading: 8, bottom: inset, trailing: 0)
 
@@ -120,6 +138,20 @@ extension MoviesViewController: UICollectionViewDataSource {
     cell.configure(with: movie)
 
     return cell
+  }
+
+  func collectionView(_ collectionView: UICollectionView,
+                      viewForSupplementaryElementOfKind kind: String,
+                      at indexPath: IndexPath) -> UICollectionReusableView {
+    guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                     withReuseIdentifier: MoviesCollectionReusableView.reuseIdentifier,
+                                                                     for: indexPath) as? MoviesCollectionReusableView else {
+                                                                      fatalError("Unable to Dequeue Reusable View.")
+    }
+
+    headerView.titleLabel.text = "Now Playing Movies"
+
+    return headerView
   }
 }
 

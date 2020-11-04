@@ -9,7 +9,7 @@
 import UIKit
 import SDWebImage
 
-class MoviesCollectionViewCell: UICollectionViewCell {
+final class MoviesCollectionViewCell: UICollectionViewCell {
 
   // MARK: - Static Properties
 
