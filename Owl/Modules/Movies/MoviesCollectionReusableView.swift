@@ -20,7 +20,7 @@ final class MoviesCollectionReusableView: UICollectionReusableView {
 
   let titleLabel: UILabel = {
     let label = UILabel()
-    label.font = .boldSystemFont(ofSize: 20)
+    label.font = .boldSystemFont(ofSize: 24)
     return label
   }()
 

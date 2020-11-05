@@ -92,7 +92,7 @@ final class MoviesViewController: UIViewController {
 
   private func createCollectionViewLayout() -> UICollectionViewLayout {
     let layout = UICollectionViewCompositionalLayout { (sectionIndex, _) -> NSCollectionLayoutSection? in
-        return self.createNowPlayingSection()
+      return self.createLayoutSection()
     }
 
     let config = UICollectionViewCompositionalLayoutConfiguration()
@@ -102,7 +102,7 @@ final class MoviesViewController: UIViewController {
     return layout
   }
 
-  private func createNowPlayingSection() -> NSCollectionLayoutSection {
+  private func createLayoutSection() -> NSCollectionLayoutSection {
     let inset: CGFloat = 3
     let fraction: CGFloat = 1/3
 
@@ -148,7 +148,7 @@ extension MoviesViewController: UICollectionViewDataSource {
     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MoviesCollectionViewCell.reuseIdentifier,
                                                         for: indexPath) as? MoviesCollectionViewCell else {
                                                           fatalError("Unable to Dequeue Cells.") }
-    let movie = viewModel.movie(at: indexPath.item)
+    let movie = viewModel.nowPlayingMovie(at: indexPath.item)
 
     cell.configure(with: movie)
 
@@ -159,12 +159,21 @@ extension MoviesViewController: UICollectionViewDataSource {
                       viewForSupplementaryElementOfKind kind: String,
                       at indexPath: IndexPath) -> UICollectionReusableView {
     guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                     withReuseIdentifier: MoviesCollectionReusableView.reuseIdentifier,
-                                                                     for: indexPath) as? MoviesCollectionReusableView else {
-                                                                      fatalError("Unable to Dequeue Reusable View.")
+                                                                           withReuseIdentifier: MoviesCollectionReusableView.reuseIdentifier,
+                                                                           for: indexPath) as? MoviesCollectionReusableView else {
+                                                                            fatalError("Unable to Dequeue Reusable View.") }
+    switch indexPath.section {
+    case 0:
+      headerView.titleLabel.text = "Now Playing"
+    case 1:
+      headerView.titleLabel.text = "Popular"
+    case 2:
+      headerView.titleLabel.text = "Upcoming"
+    case 3:
+      headerView.titleLabel.text = "Top Rated"
+    default:
+      print("No Header Title to Display")
     }
-
-    headerView.titleLabel.text = "Now Playing Movies"
 
     return headerView
   }

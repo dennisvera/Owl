@@ -14,7 +14,7 @@ final class MoviesViewModel {
 
   private let apiClient: APIClient
 
-  private var movies: [Movie] = [] {
+  private var nowPlayingMovies: [Movie] = [] {
     didSet {
       DispatchQueue.main.async {
         self.moviesDidChange?()
@@ -25,7 +25,7 @@ final class MoviesViewModel {
   // MARK: -
 
   var numberOfMovies: Int {
-    return movies.count
+    return nowPlayingMovies.count
   }
 
   // MARK: -
@@ -44,7 +44,7 @@ final class MoviesViewModel {
     apiClient.fetchNowPlayingMovies(1) { result in
       switch result {
       case .success(let movies):
-        self.movies = movies.results
+        self.nowPlayingMovies = movies.results
       case .failure(let error):
         print(error)
       }
@@ -57,7 +57,7 @@ final class MoviesViewModel {
     fetchNowPlayingMovies()
   }
 
-  func movie(at index: Int) -> Movie {
-    return movies[index]
+  func nowPlayingMovie(at index: Int) -> Movie {
+    return nowPlayingMovies[index]
   }
 }
