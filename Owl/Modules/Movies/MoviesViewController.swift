@@ -141,16 +141,30 @@ extension MoviesViewController: UICollectionViewDataSource {
   }
 
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return viewModel.numberOfMovies
+    switch section {
+    case 0:
+      return viewModel.numberOfNowPlayingMovies
+    case 1:
+      return viewModel.numberOfPopularMovies
+    default:
+      return 0
+    }
   }
 
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MoviesCollectionViewCell.reuseIdentifier,
                                                         for: indexPath) as? MoviesCollectionViewCell else {
                                                           fatalError("Unable to Dequeue Cells.") }
-    let movie = viewModel.nowPlayingMovie(at: indexPath.item)
-
-    cell.configure(with: movie)
+    switch indexPath.section {
+    case 0:
+      let movie = viewModel.nowPlayingMovie(at: indexPath.item)
+      cell.configure(with: movie)
+    case 1:
+      let movie = viewModel.popularMovie(at: indexPath.item)
+      cell.configure(with: movie)
+    default:
+      print("No Cells")
+    }
 
     return cell
   }

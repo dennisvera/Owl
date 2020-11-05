@@ -22,6 +22,7 @@ internal enum APIEndpoint {
 
   // MARK: - Cases
 
+  case popular(pageIndex: Int)
   case getNowPlayingMovies(pageIndex: Int)
 
   // MARK: - URL Components
@@ -45,6 +46,12 @@ internal enum APIEndpoint {
         URLQueryItem(name: "language", value: QueryItem.language.rawValue),
         URLQueryItem(name: "page", value: page.description)
       ]
+    case .popular(let page):
+      return [
+        URLQueryItem(name: "api_key", value: QueryItem.apiKey.rawValue),
+        URLQueryItem(name: "language", value: QueryItem.language.rawValue),
+        URLQueryItem(name: "page", value: page.description)
+      ]
     }
   }
 }
@@ -55,6 +62,8 @@ private extension APIEndpoint {
     switch self {
     case .getNowPlayingMovies:
       return "/3/movie/now_playing"
+    case .popular:
+      return "/3/movie/popular"
     }
   }
 }

@@ -22,10 +22,22 @@ final class MoviesViewModel {
     }
   }
 
+  private var popularMovies: [Movie] = [] {
+    didSet {
+      DispatchQueue.main.async {
+        self.moviesDidChange?()
+      }
+    }
+  }
+
   // MARK: -
 
-  var numberOfMovies: Int {
+  var numberOfNowPlayingMovies: Int {
     return nowPlayingMovies.count
+  }
+
+  var numberOfPopularMovies: Int {
+    return popularMovies.count
   }
 
   // MARK: -
@@ -51,13 +63,29 @@ final class MoviesViewModel {
     }
   }
 
+  private func fetchPopularMovies() {
+    apiClient.fetchPopularMovies(1) { result in
+      switch result {
+      case .success(let movies):
+        self.popularMovies = movies.results
+      case .failure(let error):
+        print(error)
+      }
+    }
+  }
+
   // MARK: - Public Methods
 
   func loadData() {
     fetchNowPlayingMovies()
+    fetchPopularMovies()
   }
 
   func nowPlayingMovie(at index: Int) -> Movie {
     return nowPlayingMovies[index]
+  }
+
+  func popularMovie(at index: Int) -> Movie {
+    return popularMovies[index]
   }
 }

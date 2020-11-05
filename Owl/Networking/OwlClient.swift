@@ -28,6 +28,14 @@ final class OwlClient: APIClient {
     fetchGenericJsonData(with: urlString, completion: completion)
   }
 
+  // MARK: - GET Popular Movies Request /TMDB Feed
+
+  func fetchPopularMovies(_ page: Int, completion: @escaping (Result<MovieResponse, APIError>) -> Void) {
+    guard let urlString = APIEndpoint.popular(pageIndex: page).url?.absoluteString else { return }
+
+    fetchGenericJsonData(with: urlString, completion: completion)
+  }
+
   // MARK: - Helper Method
 
   private func fetchGenericJsonData<T: Decodable>(with urlString: String, completion: @escaping (Result<T, APIError>) -> Void) {
