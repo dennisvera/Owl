@@ -146,6 +146,10 @@ extension MoviesViewController: UICollectionViewDataSource {
       return viewModel.numberOfNowPlayingMovies
     case 1:
       return viewModel.numberOfPopularMovies
+    case 2:
+      return viewModel.numberOfUpcomingMovies
+    case 3:
+      return viewModel.numberOfTopRatedgMovies
     default:
       return 0
     }
@@ -161,6 +165,12 @@ extension MoviesViewController: UICollectionViewDataSource {
       cell.configure(with: movie)
     case 1:
       let movie = viewModel.popularMovie(at: indexPath.item)
+      cell.configure(with: movie)
+    case 2:
+      let movie = viewModel.upcomingMovie(at: indexPath.item)
+      cell.configure(with: movie)
+    case 3:
+      let movie = viewModel.topRatedMovie(at: indexPath.item)
       cell.configure(with: movie)
     default:
       print("No Cells")

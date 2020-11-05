@@ -36,6 +36,22 @@ final class OwlClient: APIClient {
     fetchGenericJsonData(with: urlString, completion: completion)
   }
 
+  // MARK: - GET Upcoming Movies Request /TMDB Feed
+
+  func fetchUpcomingMovies(_ page: Int, completion: @escaping (Result<MovieResponse, APIError>) -> Void) {
+    guard let urlString = APIEndpoint.upcoming(pageIndex: page).url?.absoluteString else { return }
+
+    fetchGenericJsonData(with: urlString, completion: completion)
+  }
+
+  // MARK: - GET Upcoming Movies Request /TMDB Feed
+
+  func fetchTopRatedMovies(_ page: Int, completion: @escaping (Result<MovieResponse, APIError>) -> Void) {
+    guard let urlString = APIEndpoint.upcoming(pageIndex: page).url?.absoluteString else { return }
+
+    fetchGenericJsonData(with: urlString, completion: completion)
+  }
+
   // MARK: - Helper Method
 
   private func fetchGenericJsonData<T: Decodable>(with urlString: String, completion: @escaping (Result<T, APIError>) -> Void) {

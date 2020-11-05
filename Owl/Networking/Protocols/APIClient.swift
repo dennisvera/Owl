@@ -10,6 +10,8 @@ import Foundation
 
 protocol APIClient: AnyObject {
 
-  func fetchNowPlayingMovies(_ page: Int, completion: @escaping (Result<MovieResponse, APIError>) -> Void)
   func fetchPopularMovies(_ page: Int, completion: @escaping (Result<MovieResponse, APIError>) -> Void)
+  func fetchTopRatedMovies(_ page: Int, completion: @escaping (Result<MovieResponse, APIError>) -> Void)
+  func fetchUpcomingMovies(_ page: Int, completion: @escaping (Result<MovieResponse, APIError>) -> Void)
+  func fetchNowPlayingMovies(_ page: Int, completion: @escaping (Result<MovieResponse, APIError>) -> Void)
 }
