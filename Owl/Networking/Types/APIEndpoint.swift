@@ -43,30 +43,22 @@ internal enum APIEndpoint {
   private func pageQuery() -> [URLQueryItem]? {
     switch self {
     case .getNowPlayingMovies(let page):
-      return [
-        URLQueryItem(name: "api_key", value: QueryItem.apiKey.rawValue),
-        URLQueryItem(name: "language", value: QueryItem.language.rawValue),
-        URLQueryItem(name: "page", value: page.description)
-      ]
+      return queryItem(page: page)
     case .popular(let page):
-      return [
-        URLQueryItem(name: "api_key", value: QueryItem.apiKey.rawValue),
-        URLQueryItem(name: "language", value: QueryItem.language.rawValue),
-        URLQueryItem(name: "page", value: page.description)
-      ]
+      return queryItem(page: page)
     case .upcoming(let page):
-      return [
-        URLQueryItem(name: "api_key", value: QueryItem.apiKey.rawValue),
-        URLQueryItem(name: "language", value: QueryItem.language.rawValue),
-        URLQueryItem(name: "page", value: page.description)
-      ]
+      return queryItem(page: page)
     case .topRated(let page):
-      return [
-        URLQueryItem(name: "api_key", value: QueryItem.apiKey.rawValue),
-        URLQueryItem(name: "language", value: QueryItem.language.rawValue),
-        URLQueryItem(name: "page", value: page.description)
-      ]
+      return queryItem(page: page)
     }
+  }
+
+  private func queryItem(page: Int) -> [URLQueryItem]? {
+    return [
+      URLQueryItem(name: "api_key", value: QueryItem.apiKey.rawValue),
+      URLQueryItem(name: "language", value: QueryItem.language.rawValue),
+      URLQueryItem(name: "page", value: page.description)
+    ]
   }
 }
 
