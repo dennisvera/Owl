@@ -14,59 +14,16 @@ final class MoviesViewModel {
 
   private let apiClient: APIClient
 
-  private var nowPlayingMovies: [Movie] = [] {
-    didSet {
-      DispatchQueue.main.async {
-        self.moviesDidChange?()
-      }
-    }
-  }
+  // MARK: -
 
-  private var popularMovies: [Movie] = [] {
-    didSet {
-      DispatchQueue.main.async {
-        self.moviesDidChange?()
-      }
-    }
-  }
-
-  private var upcomingMovies: [Movie] = [] {
-    didSet {
-      DispatchQueue.main.async {
-        self.moviesDidChange?()
-      }
-    }
-  }
-
-  private var topRatedMovies: [Movie] = [] {
-    didSet {
-      DispatchQueue.main.async {
-        self.moviesDidChange?()
-      }
-    }
-  }
+  var popularMovies: [Movie] = []
+  var upcomingMovies: [Movie] = []
+  var topRatedMovies: [Movie] = []
+  var nowPlayingMovies: [Movie] = []
 
   // MARK: -
 
-  var numberOfNowPlayingMovies: Int {
-    return nowPlayingMovies.count
-  }
-
-  var numberOfPopularMovies: Int {
-    return popularMovies.count
-  }
-
-  var numberOfUpcomingMovies: Int {
-    return upcomingMovies.count
-  }
-
-  var numberOfTopRatedgMovies: Int {
-    return upcomingMovies.count
-  }
-
-  // MARK: -
-
-  var moviesDidChange: (() -> Void)?
+  var didShowNowPlayingMovies: (([Movie]) -> Void)?
 
   // MARK: - Initialization
 
@@ -76,11 +33,21 @@ final class MoviesViewModel {
 
   // MARK: - Public Methods
 
+  func loadData() {
+    fetchPopularMovies()
+    fetchUpcomingMovies()
+    fetchTopRatedMovies()
+    fetchNowPlayingMovies()
+  }
+
+  // MARK: - Private Methods
+
   private func fetchNowPlayingMovies() {
     apiClient.fetchNowPlayingMovies(1) { result in
       switch result {
       case .success(let movies):
         self.nowPlayingMovies = movies.results
+        self.didShowNowPlayingMovies?(movies.results)
       case .failure(let error):
         print(error)
       }
@@ -118,30 +85,5 @@ final class MoviesViewModel {
         print(error)
       }
     }
-  }
-
-  // MARK: - Public Methods
-
-  func loadData() {
-    fetchPopularMovies()
-    fetchUpcomingMovies()
-    fetchTopRatedMovies()
-    fetchNowPlayingMovies()
-  }
-
-  func nowPlayingMovie(at index: Int) -> Movie {
-    return nowPlayingMovies[index]
-  }
-
-  func popularMovie(at index: Int) -> Movie {
-    return popularMovies[index]
-  }
-
-  func upcomingMovie(at index: Int) -> Movie {
-    return upcomingMovies[index]
-  }
-
-  func topRatedMovie(at index: Int) -> Movie {
-    return topRatedMovies[index]
   }
 }

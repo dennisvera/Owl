@@ -8,7 +8,22 @@
 
 import UIKit
 
+enum Section {
+
+  // MARK: - Properties
+
+  case nowPlaying
+  case popular
+  case upcoming
+  case topRated
+}
+
 final class MoviesViewController: UIViewController {
+
+  // MARK: - Typealias
+
+  typealias DataSource = UICollectionViewDiffableDataSource<Section, Movie>
+  typealias DataSourceSnapshot = NSDiffableDataSourceSnapshot<Section, Movie>
 
   // MARK: - Properties
 
@@ -16,8 +31,12 @@ final class MoviesViewController: UIViewController {
 
   // MARK: -
 
-  private var movies: [Movie]?
   private let viewModel: MoviesViewModel
+
+  // MARK: -
+
+  private var dataSource: DataSource?
+  private var snapshot = DataSourceSnapshot()
 
   // MARK: - Initialization
 
@@ -39,6 +58,8 @@ final class MoviesViewController: UIViewController {
     setupView()
     fetchData()
     setupCollectionView()
+    setupCollectionViewDataSource()
+    applySnapshot()
   }
 
   private func setupView() {
@@ -53,8 +74,7 @@ final class MoviesViewController: UIViewController {
   private func setupCollectionView() {
     // Configure Collection View
     collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createCollectionViewLayout())
-    collectionView.delegate = self
-    collectionView.dataSource = self
+    collectionView.dataSource = dataSource
     collectionView.backgroundColor = .systemBackground
     collectionView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -81,11 +101,6 @@ final class MoviesViewController: UIViewController {
 
   private func fetchData() {
     viewModel.loadData()
-
-    viewModel.moviesDidChange = { [weak self] in
-      guard let strongSelf = self else { return }
-      strongSelf.collectionView.reloadData()
-    }
   }
 
   // MARK: - UICollection View Layout
@@ -118,90 +133,47 @@ final class MoviesViewController: UIViewController {
     let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
 
     // Header
-    let headerItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                                heightDimension: .estimated(40))
-    let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerItemSize,
-                                                                 elementKind: UICollectionView.elementKindSectionHeader,
-                                                                 alignment: .top)
+    //    let headerItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+    //                                                heightDimension: .estimated(40))
+    //    let headerItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerItemSize,
+    //                                                                 elementKind: UICollectionView.elementKindSectionHeader,
+    //                                                                 alignment: .top)
 
     // Section
     let section = NSCollectionLayoutSection(group: group)
-    section.boundarySupplementaryItems = [headerItem]
+    //    section.boundarySupplementaryItems = [headerItem]
     section.orthogonalScrollingBehavior = .groupPaging
     section.contentInsets = NSDirectionalEdgeInsets(top: inset, leading: 8, bottom: inset, trailing: 0)
 
     return section
   }
-}
 
-extension MoviesViewController: UICollectionViewDataSource {
+  private func setupCollectionViewDataSource() {
+    dataSource = DataSource(collectionView: collectionView, cellProvider: { (collectionView, indexPath, movie) -> MoviesCollectionViewCell? in
+      guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MoviesCollectionViewCell.reuseIdentifier,
+                                                          for: indexPath) as? MoviesCollectionViewCell else { fatalError("DEAD") }
 
-  func numberOfSections(in collectionView: UICollectionView) -> Int {
-    return 4
+      cell.configure(with: movie)
+
+      return cell
+    })
   }
+  
+//  private func applySnapshot() {
+//    snapshot = DataSourceSnapshot()
+//    snapshot.appendSections([.nowPlaying])
+//    snapshot.appendItems(viewModel.nowPlayingMovies, toSection: .nowPlaying)
+//
+//    dataSource?.apply(snapshot, animatingDifferences: false)
+//  }
 
-  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    switch section {
-    case 0:
-      return viewModel.numberOfNowPlayingMovies
-    case 1:
-      return viewModel.numberOfPopularMovies
-    case 2:
-      return viewModel.numberOfUpcomingMovies
-    case 3:
-      return viewModel.numberOfTopRatedgMovies
-    default:
-      return 0
+  private func applySnapshot() {
+    viewModel.didShowNowPlayingMovies = { [weak self] movie in
+      self?.snapshot = DataSourceSnapshot()
+      self?.snapshot.appendSections([.nowPlaying])
+      self?.snapshot.appendItems(movie, toSection: .nowPlaying)
+
+      self?.dataSource?.apply(self!.snapshot, animatingDifferences: false)
     }
-  }
-
-  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MoviesCollectionViewCell.reuseIdentifier,
-                                                        for: indexPath) as? MoviesCollectionViewCell else {
-                                                          fatalError("Unable to Dequeue Cells.") }
-    switch indexPath.section {
-    case 0:
-      let movie = viewModel.nowPlayingMovie(at: indexPath.item)
-      cell.configure(with: movie)
-    case 1:
-      let movie = viewModel.popularMovie(at: indexPath.item)
-      cell.configure(with: movie)
-    case 2:
-      let movie = viewModel.upcomingMovie(at: indexPath.item)
-      cell.configure(with: movie)
-    case 3:
-      let movie = viewModel.topRatedMovie(at: indexPath.item)
-      cell.configure(with: movie)
-    default:
-      print("No Cells")
-    }
-
-    return cell
-  }
-
-  func collectionView(_ collectionView: UICollectionView,
-                      viewForSupplementaryElementOfKind kind: String,
-                      at indexPath: IndexPath) -> UICollectionReusableView {
-    guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                           withReuseIdentifier: MoviesCollectionReusableView.reuseIdentifier,
-                                                                           for: indexPath) as? MoviesCollectionReusableView else {
-                                                                            fatalError("Unable to Dequeue Reusable View.") }
-    switch indexPath.section {
-    case 0:
-      headerView.titleLabel.text = "Now Playing"
-    case 1:
-      headerView.titleLabel.text = "Popular"
-    case 2:
-      headerView.titleLabel.text = "Upcoming"
-    case 3:
-      headerView.titleLabel.text = "Top Rated"
-    default:
-      print("No Header Title to Display")
-    }
-
-    return headerView
   }
 }
-
-extension MoviesViewController: UICollectionViewDelegate {}
-

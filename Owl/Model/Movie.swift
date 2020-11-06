@@ -17,7 +17,7 @@ struct MovieResponse: Decodable {
   let totalResults: Int
 }
 
-struct Movie: Decodable {
+struct Movie: Decodable, Hashable {
 
   // MARK: - Properties
 
