@@ -57,9 +57,9 @@ final class MoviesViewController: UIViewController {
 
     setupView()
     fetchData()
+    applySnapshot()
     setupCollectionView()
     setupCollectionViewDataSource()
-    applySnapshot()
   }
 
   private func setupView() {
@@ -158,22 +158,36 @@ final class MoviesViewController: UIViewController {
       return cell
     })
   }
-  
-//  private func applySnapshot() {
-//    snapshot = DataSourceSnapshot()
-//    snapshot.appendSections([.nowPlaying])
-//    snapshot.appendItems(viewModel.nowPlayingMovies, toSection: .nowPlaying)
-//
-//    dataSource?.apply(snapshot, animatingDifferences: false)
-//  }
 
   private func applySnapshot() {
-    viewModel.didShowNowPlayingMovies = { [weak self] movie in
-      self?.snapshot = DataSourceSnapshot()
-      self?.snapshot.appendSections([.nowPlaying])
-      self?.snapshot.appendItems(movie, toSection: .nowPlaying)
+    snapshot = DataSourceSnapshot()
 
-      self?.dataSource?.apply(self!.snapshot, animatingDifferences: false)
+    viewModel.nowPlayingMovies = { [weak self] movie in
+      guard let strongSelf = self else { return }
+      strongSelf.snapshot.appendSections([.nowPlaying])
+      strongSelf.snapshot.appendItems(movie, toSection: .nowPlaying)
+      strongSelf.dataSource?.apply(strongSelf.snapshot, animatingDifferences: false)
+    }
+
+    viewModel.popularMovies = { [weak self] movie in
+      guard let strongSelf = self else { return }
+      strongSelf.snapshot.appendSections([.popular])
+      strongSelf.snapshot.appendItems(movie, toSection: .popular)
+      strongSelf.dataSource?.apply(strongSelf.snapshot, animatingDifferences: false)
+    }
+
+    viewModel.upcomingMovies = { [weak self] movie in
+      guard let strongSelf = self else { return }
+      strongSelf.snapshot.appendSections([.upcoming])
+      strongSelf.snapshot.appendItems(movie, toSection: .upcoming)
+      strongSelf.dataSource?.apply(strongSelf.snapshot, animatingDifferences: false)
+    }
+
+    viewModel.topratedMovies = { [weak self] movie in
+      guard let strongSelf = self else { return }
+      strongSelf.snapshot.appendSections([.topRated])
+      strongSelf.snapshot.appendItems(movie, toSection: .topRated)
+      strongSelf.dataSource?.apply(strongSelf.snapshot, animatingDifferences: false)
     }
   }
 }

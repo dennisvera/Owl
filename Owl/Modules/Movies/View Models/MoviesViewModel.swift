@@ -16,14 +16,10 @@ final class MoviesViewModel {
 
   // MARK: -
 
-  var popularMovies: [Movie] = []
-  var upcomingMovies: [Movie] = []
-  var topRatedMovies: [Movie] = []
-  var nowPlayingMovies: [Movie] = []
-
-  // MARK: -
-
-  var didShowNowPlayingMovies: (([Movie]) -> Void)?
+  var popularMovies: (([Movie]) -> Void)?
+  var upcomingMovies: (([Movie]) -> Void)?
+  var topratedMovies: (([Movie]) -> Void)?
+  var nowPlayingMovies: (([Movie]) -> Void)?
 
   // MARK: - Initialization
 
@@ -46,8 +42,7 @@ final class MoviesViewModel {
     apiClient.fetchNowPlayingMovies(1) { result in
       switch result {
       case .success(let movies):
-        self.nowPlayingMovies = movies.results
-        self.didShowNowPlayingMovies?(movies.results)
+        self.nowPlayingMovies?(movies.results)
       case .failure(let error):
         print(error)
       }
@@ -58,7 +53,7 @@ final class MoviesViewModel {
     apiClient.fetchPopularMovies(1) { result in
       switch result {
       case .success(let movies):
-        self.popularMovies = movies.results
+        self.popularMovies?(movies.results)
       case .failure(let error):
         print(error)
       }
@@ -69,7 +64,7 @@ final class MoviesViewModel {
     apiClient.fetchUpcomingMovies(1) { result in
       switch result {
       case .success(let movies):
-        self.upcomingMovies = movies.results
+        self.upcomingMovies?(movies.results)
       case .failure(let error):
         print(error)
       }
@@ -80,7 +75,7 @@ final class MoviesViewModel {
     apiClient.fetchTopRatedMovies(1) { result in
       switch result {
       case .success(let movies):
-        self.topRatedMovies = movies.results
+        self.topratedMovies?(movies.results)
       case .failure(let error):
         print(error)
       }
